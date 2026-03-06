@@ -26,3 +26,27 @@ public extension MemberDto {
         )
     }
 }
+
+public extension Array where Element == MemberDto {
+    func toDomain() -> [MemberEntity] {
+        return self.map { $0.toDomain() }
+    }
+}
+
+extension MemberEntity {
+    func toDto() -> MemberDto {
+        return MemberDto(
+            identification_uuid: self.id,
+            email_parent: self.emailParent,
+            member_name: self.memberName,
+            avatar_name: self.avatarName,
+            iconName: self.iconName
+        )
+    }
+}
+
+extension Array where Element == MemberEntity {
+    func toDto() -> [MemberDto] {
+        return self.map { $0.toDto() }
+    }
+}

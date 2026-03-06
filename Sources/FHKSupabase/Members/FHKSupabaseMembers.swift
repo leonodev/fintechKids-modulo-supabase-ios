@@ -17,11 +17,13 @@ public final class FHKSupabaseMembers: FHKSupabaseMembersProtocol {
         self.supabaseClient = supabaseClient
     }
     
-    public func addMembers(members: [FamilyMember]) async throws {
+    public func addMembers(members: [MemberEntity]) async throws {
+        let membersDto = members.toDto()
         
         do {
-            let response = try await supabaseClient.from(DB.TABLE_FAMILY_MEMBER.NAME)
-                .insert(members)
+            let response = try await supabaseClient
+                .from(DB.TABLE_FAMILY_MEMBER.NAME)
+                .insert(membersDto)
                 .execute()
             
             Logger.info("Status Code: \(response.status)")
@@ -33,15 +35,15 @@ public final class FHKSupabaseMembers: FHKSupabaseMembersProtocol {
         }
     }
     
-    public func fetchFamilyMembers(parentEmail: String) async throws -> [FamilyMember] {
-        let members: [FamilyMember] = try await supabaseClient
+    public func fetchFamilyMembers(parentEmail: String) async throws -> [MemberEntity] {
+        let members: [MemberDto] = try await supabaseClient
             .from(DB.TABLE_FAMILY_MEMBER.NAME)
             .select()
             .eq(DB.TABLE_FAMILY_MEMBER.COLUMN.email, value: parentEmail)
             .execute()
             .value
         
-        return members
+        return members.toDomain()
     }
     
     public func deleteMember(identification: UUID) async throws {
