@@ -38,8 +38,7 @@ extension MemberEntity {
             identification_uuid: self.id,
             email_parent: self.emailParent,
             member_name: self.memberName,
-            avatar_name: self.avatarName,
-            iconName: self.iconName
+            avatar_name: self.avatarName
         )
     }
 }
