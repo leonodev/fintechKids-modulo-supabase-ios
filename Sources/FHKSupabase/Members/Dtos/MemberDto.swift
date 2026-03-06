@@ -13,7 +13,6 @@ public struct MemberDto: Codable {
     public let email_parent: String
     public let member_name: String
     public let avatar_name: String
-    public var iconName: String = "trash"
 }
 
 public extension MemberDto {
