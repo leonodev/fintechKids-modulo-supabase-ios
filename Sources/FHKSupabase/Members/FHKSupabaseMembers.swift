@@ -18,9 +18,9 @@ public final class FHKSupabaseMembers: FHKSupabaseMembersProtocol {
     }
     
     public func addMembers(members: [MemberEntity]) async throws {
-        let membersDto = members.toDto()
-        
         do {
+            let membersDto = try members.toDto()
+            
             let response = try await supabaseClient
                 .from(DB.TABLE_FAMILY_MEMBER.NAME)
                 .insert(membersDto)
@@ -43,7 +43,7 @@ public final class FHKSupabaseMembers: FHKSupabaseMembersProtocol {
             .execute()
             .value
         
-        return members.toDomain()
+        return try members.toDomain()
     }
     
     public func deleteMember(identification: UUID) async throws {
