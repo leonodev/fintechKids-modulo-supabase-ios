@@ -9,7 +9,6 @@ import Foundation
 import FHKDomain
 
 public struct TaskDto: BusinessModelProtocol {
-    public let id: Int
     public let created_at: String
     public let name: String
     public let time_granted: Int
@@ -20,7 +19,6 @@ public struct TaskDto: BusinessModelProtocol {
 extension TaskDto: MappeableToDomain {
     public func toDomain() throws -> TaskEntity {
         return TaskEntity(
-            id: self.id,
             createdAt: self.created_at,
             name: self.name,
             timeGranted: self.time_granted,

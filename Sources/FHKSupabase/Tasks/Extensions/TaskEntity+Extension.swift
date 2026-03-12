@@ -9,8 +9,7 @@ import FHKDomain
 
 extension TaskEntity: MappeableToSupabase {
     public func toDto() throws -> TaskDto {
-        return TaskDto(id: self.id,
-                       created_at: self.createdAt,
+        return TaskDto(created_at: self.createdAt,
                        name: self.name,
                        time_granted: self.timeGranted,
                        coins_granted: self.coinsGranted,
