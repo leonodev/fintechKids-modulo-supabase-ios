@@ -13,4 +13,15 @@ public struct DB {
             public static let identificationUUID = "identification_uuid"
         }
     }
+    
+    public struct TABLE_TASK {
+        public static let NAME: String = "fhk_task_list"
+        
+        public struct COLUMN {
+            public static let name = "name"
+            public static let timeGranted = "time_granted"
+            public static let coinsGranted = "coins_granted"
+            public static let email = "email_parent"
+        }
+    }
 }
