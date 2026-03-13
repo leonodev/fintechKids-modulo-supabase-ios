@@ -35,13 +35,13 @@ public final class FHKSupabaseTask: FHKSupabaseTaskProtocol {
     }
     
     public func getTasks(parentEmail: String) async throws -> [TaskEntity] {
-        let members: [TaskDto] = try await supabaseClient
+        let taskList: [TaskDto] = try await supabaseClient
             .from(DB.TABLE_TASK.NAME)
             .select()
             .eq(DB.TABLE_TASK.COLUMN.email, value: parentEmail)
             .execute()
             .value
         
-        return try members.toDomain()
+        return try taskList.toDomain()
     }
 }
