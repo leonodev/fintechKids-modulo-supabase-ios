@@ -12,14 +12,14 @@ public struct TaskDto: BusinessModelProtocol {
     public let created_at: String
     public let name: String
     public let description: String
-    public let time_granted: Int
+    public let time_granted: String
     public let coins_granted: Int
     public let email_parent: String
-    public var fhk_goal_duration: GoalDurationDto = GoalDurationDto(duration: "")
-
-    public struct GoalDurationDto: Codable, Sendable {
-        let duration: String
-    }
+//    public var fhk_goal_duration: GoalDurationDto = GoalDurationDto(duration: "")
+//
+//    public struct GoalDurationDto: Codable, Sendable {
+//        let duration: String
+//    }
 }
 
 extension TaskDto: MappeableToDomain {
@@ -30,8 +30,8 @@ extension TaskDto: MappeableToDomain {
             description: self.description,
             timeGranted: self.time_granted,
             coinsGranted: self.coins_granted,
-            emailParent: self.email_parent,
-            durationType: self.fhk_goal_duration.duration
+            emailParent: self.email_parent
+            //durationType: self.fhk_goal_duration.duration
         )
     }
 }
