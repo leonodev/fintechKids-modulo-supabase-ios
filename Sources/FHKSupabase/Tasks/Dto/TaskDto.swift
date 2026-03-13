@@ -11,6 +11,7 @@ import FHKDomain
 public struct TaskDto: BusinessModelProtocol {
     public let created_at: String
     public let name: String
+    public let description: String
     public let time_granted: Int
     public let coins_granted: Int
     public let email_parent: String
@@ -21,6 +22,7 @@ extension TaskDto: MappeableToDomain {
         return TaskEntity(
             createdAt: self.created_at,
             name: self.name,
+            description: self.description,
             timeGranted: self.time_granted,
             coinsGranted: self.coins_granted,
             emailParent: self.email_parent)
