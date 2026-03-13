@@ -15,6 +15,11 @@ public struct TaskDto: BusinessModelProtocol {
     public let time_granted: Int
     public let coins_granted: Int
     public let email_parent: String
+    public var fhk_goal_duration: GoalDurationDto = GoalDurationDto(duration: "")
+
+    public struct GoalDurationDto: Codable, Sendable {
+        let duration: String
+    }
 }
 
 extension TaskDto: MappeableToDomain {
