@@ -30,6 +30,8 @@ extension TaskDto: MappeableToDomain {
             description: self.description,
             timeGranted: self.time_granted,
             coinsGranted: self.coins_granted,
-            emailParent: self.email_parent)
+            emailParent: self.email_parent,
+            durationType: self.fhk_goal_duration.duration
+        )
     }
 }
