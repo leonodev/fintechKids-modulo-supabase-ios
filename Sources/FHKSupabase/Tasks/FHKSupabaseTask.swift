@@ -37,7 +37,12 @@ public final class FHKSupabaseTask: FHKSupabaseTaskProtocol {
     public func getTasks(parentEmail: String) async throws -> [TaskEntity] {
         let taskList: [TaskDto] = try await supabaseClient
             .from(DB.TABLE_TASK.NAME)
-            .select()
+            .select("""
+                        *,
+                        fhk_goal_duration (
+                            duration
+                        )
+                    """)
             .eq(DB.TABLE_TASK.COLUMN.email, value: parentEmail)
             .execute()
             .value
