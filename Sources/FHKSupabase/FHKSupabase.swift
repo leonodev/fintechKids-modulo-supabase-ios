@@ -24,4 +24,17 @@ public struct DB {
             public static let email = "email_parent"
         }
     }
+    
+    public struct TABLE_GOAL {
+        public static let NAME: String = "fhk_goals_list"
+        
+        public struct COLUMN {
+            public static let dateExpiration = "date_expiration"
+            public static let duration = "duration"
+            public static let emailParent = "email_parent"
+            public static let coinsRewards = "coins_rewards"
+            public static let timeReward = "time_reward"
+            public static let status = "status"
+        }
+    }
 }
