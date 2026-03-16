@@ -10,6 +10,7 @@ import FHKDomain
 
 public struct GoalDto: BusinessModelProtocol {
     public let date_expiration: String
+    public let name: String
     public let duration: String
     public let email_parent: String
     public let coins_rewards: Int
@@ -21,6 +22,7 @@ extension GoalDto: MappeableToDomain {
     public func toDomain() throws -> GoalEntity {
         return GoalEntity(
             expirationDate: self.date_expiration,
+            name: self.name,
             duration: self.duration,
             emailParent: self.email_parent,
             coinsReward: self.coins_rewards,
