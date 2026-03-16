@@ -30,10 +30,10 @@ public struct DB {
         
         public struct COLUMN {
             public static let dateExpiration = "date_expiration"
-            public static let duration = "duration"
+            public static let name = "name"
             public static let emailParent = "email_parent"
-            public static let coinsRewards = "coins_rewards"
-            public static let timeReward = "time_reward"
+            public static let value = "value"
+            public static let measure_type = "measure_type"
             public static let status = "status"
         }
     }
