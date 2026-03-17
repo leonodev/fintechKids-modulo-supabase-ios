@@ -20,17 +20,29 @@ public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
     public func createGoal(goal: GoalEntity) async throws {
         do {
             let goalDto = try goal.toDto()
+            
+            guard !goalDto.date_expiration.isEmpty else {
+                throw OperationError.invalidData
+            }
+
             let response = try await supabaseClient
                 .from(DB.TABLE_GOAL.NAME)
                 .insert(goalDto)
                 .execute()
             
-            Logger.info("Status Code: \(response.status)")
-        } catch {
-            Logger.error("Error de Supabase: \(error.localizedDescription)")
-            if let decodingError = error as? DecodingError {
-                Logger.error("Error de decodificación: \(decodingError)")
+            if response.status >= 400 {
+                throw OperationError.creationFailed
             }
+
+            Logger.info("Status Code: \(response.status)")
+        } catch let error as OperationError {
+            throw error
+        } catch is DecodingError {
+            Logger.error("Error in decodification")
+            throw OperationError.decodingError
+        } catch {
+            Logger.error("Error generic: \(error.localizedDescription)")
+            throw OperationError.networkError(message: error.localizedDescription)
         }
     }
     
