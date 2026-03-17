@@ -20,10 +20,6 @@ public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
     public func createGoal(goal: GoalEntity) async throws {
         do {
             let goalDto = try goal.toDto()
-            
-            guard !goalDto.date_expiration.isEmpty else {
-                throw OperationError.invalidData
-            }
 
             let response = try await supabaseClient
                 .from(DB.TABLE_GOAL.NAME)
