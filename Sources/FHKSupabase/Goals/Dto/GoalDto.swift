@@ -19,12 +19,14 @@ public struct GoalDto: BusinessModelProtocol {
 
 extension GoalDto: MappeableToDomain {
     public func toDomain() throws -> GoalEntity {
+        let domainStatus = OperationStatus(rawValue: self.status) ?? .inCurse
+        
         return GoalEntity(
             expirationDate: self.date_expiration,
             name: self.name,
             emailParent: self.email_parent,
             value: self.value,
             measureType: self.measure_type,
-            status: self.status)
+            status: domainStatus)
     }
 }

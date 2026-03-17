@@ -15,7 +15,7 @@ extension GoalEntity: MappeableToSupabase {
                        email_parent: self.emailParent,
                        value: self.value,
                        measure_type: self.measureType,
-                       status: self.status
+                       status: self.status.value
         )
     }
 }
