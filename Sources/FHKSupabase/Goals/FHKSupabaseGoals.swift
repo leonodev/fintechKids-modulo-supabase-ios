@@ -27,18 +27,21 @@ public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
                 .execute()
             
             if response.status >= 400 {
-                throw OperationError.creationFailed
+                throw OperationError.creationError
             }
 
             Logger.info("Status Code: \(response.status)")
-        } catch let error as OperationError {
-            throw error
-        } catch is DecodingError {
-            Logger.error("Error in decodification")
-            throw OperationError.decodingError
-        } catch {
-            Logger.error("Error generic: \(error.localizedDescription)")
-            throw OperationError.networkError(message: error.localizedDescription)
+        } catch let pgError as PostgresError {
+            let errorCode = pgError.code
+            let errorMessage = pgError.message
+            
+            Logger.error("Postgres Error: [\(errorCode)] \(errorMessage)")
+            switch errorCode {
+            case "22007":
+                throw OperationError.invalidDate
+            default:
+                throw OperationError.databaseError(errorMessage)
+            }
         }
     }
     
