@@ -9,6 +9,7 @@ import Foundation
 import Supabase
 import FHKDomain
 import FHKUtils
+import PostgREST
 
 public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
     let supabaseClient: SupabaseClient
@@ -31,17 +32,27 @@ public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
             }
 
             Logger.info("Status Code: \(response.status)")
-        } catch let pgError as PostgresError {
-            let errorCode = pgError.code
-            let errorMessage = pgError.message
-            
-            Logger.error("Postgres Error: [\(errorCode)] \(errorMessage)")
-            switch errorCode {
-            case "22007":
-                throw OperationError.invalidDate
-            default:
-                throw OperationError.databaseError(errorMessage)
+        } catch {
+            if let postgrestError = error as? PostgrestError {
+               
+                let myPgError = FHKPostgresError(
+                    code: postgrestError.code ?? "",
+                    message: postgrestError.message,
+                    hint: postgrestError.hint
+                )
+                
+                Logger.error("Capturado error de Postgres: \(myPgError.code)")
+                
+                switch myPgError.code {
+                case "22007":
+                    throw OperationError.invalidDate
+                default:
+                    throw OperationError.databaseError(myPgError.message)
+                }
             }
+            
+            // Si no es un error de Postgres, lanzamos el genérico
+            throw OperationError.networkError(error.localizedDescription)
         }
     }
     
