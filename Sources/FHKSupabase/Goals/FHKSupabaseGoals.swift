@@ -11,7 +11,7 @@ import FHKDomain
 import FHKUtils
 import PostgREST
 
-public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
+public final class FHKSupabaseGoals: SupabaseErrorProtocol, FHKSupabaseGoalProtocol {
     let supabaseClient: SupabaseClient
     
     public init(supabaseClient: SupabaseClient) {
@@ -28,31 +28,18 @@ public final class FHKSupabaseGoals: FHKSupabaseGoalProtocol {
                 .execute()
             
             if response.status >= 400 {
-                throw OperationError.creationError
+                throw FHKSupabaseError.unknown("Error unknown: \(response.status)")
             }
 
-            Logger.info("Status Code: \(response.status)")
-        } catch {
-            if let postgrestError = error as? PostgrestError {
-               
-                let myPgError = FHKPostgresError(
-                    code: postgrestError.code ?? "",
-                    message: postgrestError.message,
-                    hint: postgrestError.hint
-                )
-                
-                Logger.error("Capturado error de Postgres: \(myPgError.code)")
-                
-                switch myPgError.code {
-                case "22007":
-                    throw OperationError.invalidDate
-                default:
-                    throw OperationError.databaseError(myPgError.message)
-                }
-            }
+        } catch let pgError as PostgrestError {
+            let code = pgError.code ?? ""
+            let errorToThrow = mapPostgresError(code, message: pgError.message)
             
-            // Si no es un error de Postgres, lanzamos el genérico
-            throw OperationError.networkError(error.localizedDescription)
+            //Logger.error("Error Mapped of DB: \(code)")
+            throw errorToThrow
+        } catch {
+            Logger.error("Error de DB: \(error)")
+            throw OperationError.creationError
         }
     }
     
