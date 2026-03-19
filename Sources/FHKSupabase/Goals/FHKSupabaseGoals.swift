@@ -11,7 +11,7 @@ import FHKDomain
 import FHKUtils
 import PostgREST
 
-public final class FHKSupabaseGoals: SupabaseErrorProtocol, FHKSupabaseGoalProtocol {
+public final class FHKSupabaseGoals: FHKSupabaseErrorProtocol, FHKSupabaseGoalProtocol {
     let supabaseClient: SupabaseClient
     
     public init(supabaseClient: SupabaseClient) {
