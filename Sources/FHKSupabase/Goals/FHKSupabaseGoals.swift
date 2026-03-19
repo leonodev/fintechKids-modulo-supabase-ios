@@ -30,16 +30,12 @@ public final class FHKSupabaseGoals: FHKSupabaseErrorProtocol, FHKSupabaseGoalPr
             if response.status >= 400 {
                 throw FHKSupabaseError.unknown("Error unknown: \(response.status)")
             }
-
         } catch let pgError as PostgrestError {
             let code = pgError.code ?? ""
             let errorToThrow = mapPostgresError(code, message: pgError.message)
-            
-            //Logger.error("Error Mapped of DB: \(code)")
             throw errorToThrow
         } catch {
-            Logger.error("Error de DB: \(error)")
-            throw OperationError.creationError
+            throw FHKSupabaseError.unknown(error.localizedDescription)
         }
     }
     

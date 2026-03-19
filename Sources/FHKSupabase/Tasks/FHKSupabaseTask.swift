@@ -9,8 +9,9 @@ import Foundation
 import Supabase
 import FHKDomain
 import FHKUtils
+import PostgREST
 
-public final class FHKSupabaseTask: FHKSupabaseTaskProtocol {
+public final class FHKSupabaseTask: FHKSupabaseErrorProtocol, FHKSupabaseTaskProtocol {
     let supabaseClient: SupabaseClient
     
     public init(supabaseClient: SupabaseClient) {
@@ -25,12 +26,15 @@ public final class FHKSupabaseTask: FHKSupabaseTaskProtocol {
                 .insert(taskDto)
                 .execute()
             
-            Logger.info("Status Code: \(response.status)")
-        } catch {
-            Logger.error("Error de Supabase: \(error.localizedDescription)")
-            if let decodingError = error as? DecodingError {
-                Logger.error("Error de decodificación: \(decodingError)")
+            if response.status >= 400 {
+                throw FHKSupabaseError.unknown("Error unknown: \(response.status)")
             }
+        } catch let pgError as PostgrestError {
+            let code = pgError.code ?? ""
+            let errorToThrow = mapPostgresError(code, message: pgError.message)
+            throw errorToThrow
+        } catch {
+            throw FHKSupabaseError.unknown(error.localizedDescription)
         }
     }
     
