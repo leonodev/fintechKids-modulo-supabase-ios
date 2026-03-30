@@ -18,7 +18,7 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
         self.supabaseClient = supabaseClient
     }
     
-    public func fetchBalance(memberId: String
+    public func fetchBalance(memberId: UUID
     ) async throws -> FHKDomain.BalanceEntity {
         let balance: BalanceDto = try await supabaseClient
             .from(DB.TABLE_BALANCE.NAME)
@@ -30,7 +30,7 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
         return balance.toDomain()
     }
     
-    public func updateBalance(memberId: String,
+    public func updateBalance(memberId: UUID,
                               infoBalance: FHKDomain.BalanceEntity
     ) async throws {
         do {
