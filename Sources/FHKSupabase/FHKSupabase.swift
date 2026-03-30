@@ -37,4 +37,14 @@ public struct DB {
             public static let status = "status"
         }
     }
+    
+    public struct TABLE_BALANCE {
+        public static let NAME: String = "fhk_members_balance"
+        
+        public struct COLUMN {
+            public static let memberId = "member_id"
+            public static let coinsObtained = "coins_obtained"
+            public static let timeObtained = "time_obtained"
+        }
+    }
 }
