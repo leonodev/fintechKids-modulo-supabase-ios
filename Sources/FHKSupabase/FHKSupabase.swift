@@ -47,4 +47,16 @@ public struct DB {
             public static let timeObtained = "time_obtained"
         }
     }
+    
+    public struct TABLE_REWARDS {
+        public static let NAME: String = "fhk_rewards_list"
+        
+        public struct COLUMN {
+            public static let createdAt = "created_at"
+            public static let name = "name"
+            public static let timeRequiered = "time_requiered"
+            public static let coinsRequired = "coins_required"
+            public static let emailParent = "email_parent"
+        }
+    }
 }
