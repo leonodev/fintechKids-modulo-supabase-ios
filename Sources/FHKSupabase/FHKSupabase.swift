@@ -46,6 +46,10 @@ public struct DB {
             public static let coinsObtained = "coins_obtained"
             public static let timeObtained = "time_obtained"
         }
+        
+        public struct FUNCTION_RPC {
+            public static let updateBalance = "update_balance"
+        }
     }
     
     public struct TABLE_REWARDS {

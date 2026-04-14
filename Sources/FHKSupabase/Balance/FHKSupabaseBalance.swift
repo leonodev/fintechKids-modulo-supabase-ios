@@ -38,12 +38,16 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
                               infoBalance: FHKDomain.BalanceEntity
     ) async throws {
         do {
-            let balanceDto = try infoBalance.toDto()
-
-            let response = try await supabaseClient
-                .from(DB.TABLE_BALANCE.NAME)
-                .update(balanceDto)
-                .execute()
+            let params = AddRewardsParams(
+                target_member_id: memberId,
+                new_coins: infoBalance.coinsObtained,
+                new_time_string: infoBalance.timeObtained
+            )
+            
+            let response = try await supabaseClient.rpc(
+                DB.TABLE_BALANCE.FUNCTION_RPC.updateBalance,
+                params: params
+            ).execute()
             
             if response.status >= 400 {
                 throw FHKSupabaseError.unknown("Error unknown: \(response.status)")
