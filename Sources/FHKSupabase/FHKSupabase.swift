@@ -48,7 +48,8 @@ public struct DB {
         }
         
         public struct FUNCTION_RPC {
-            public static let updateBalance = "update_balance"
+            public static let updateCoinsBalance = "update_coins_balance"
+            public static let updateTimeBalance = "update_time_balance"
         }
     }
     

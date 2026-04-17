@@ -34,19 +34,40 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
         return balance.toDomain()
     }
     
-    public func updateBalance(memberId: UUID,
-                              infoBalance: FHKDomain.BalanceEntity
-    ) async throws {
+    public func updateKidsCoinsBalance(memberId: UUID, infoBalance: BalanceKidsCoinsEntity) async throws {
         do {
-            let params = AddRewardsParams(
+            let coinsParams = CoinsRewardsParams(
                 target_member_id: memberId,
-                new_coins: infoBalance.coinsObtained,
+                new_coins: infoBalance.coinsObtained
+            )
+            
+            let response = try await supabaseClient.rpc(
+                DB.TABLE_BALANCE.FUNCTION_RPC.updateCoinsBalance,
+                params: coinsParams
+            ).execute()
+            
+            if response.status >= 400 {
+                throw FHKSupabaseError.unknown("Error unknown: \(response.status)")
+            }
+        } catch let pgError as PostgrestError {
+            let code = pgError.code ?? ""
+            let errorToThrow = mapPostgresError(code, message: pgError.message)
+            throw errorToThrow
+        } catch {
+            throw FHKSupabaseError.unknown(error.localizedDescription)
+        }
+    }
+    
+    public func updateTimeBalance(memberId: UUID, infoBalance: BalanceTimeEntity) async throws {
+        do {
+            let timeParams = TimeRewardsParams(
+                target_member_id: memberId,
                 new_time_string: infoBalance.timeObtained
             )
             
             let response = try await supabaseClient.rpc(
-                DB.TABLE_BALANCE.FUNCTION_RPC.updateBalance,
-                params: params
+                DB.TABLE_BALANCE.FUNCTION_RPC.updateTimeBalance,
+                params: timeParams
             ).execute()
             
             if response.status >= 400 {
