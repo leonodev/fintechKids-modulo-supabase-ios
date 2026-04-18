@@ -81,4 +81,25 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
             throw FHKSupabaseError.unknown(error.localizedDescription)
         }
     }
+    
+    public func sendGoldenTicket(data: GoldenTicketParamsEntity) async throws {
+        do {
+            // .invoke busca la función por el nombre con el que la desplegaste
+            let response: ResendResponse = try await supabaseClient.functions
+                .invoke(
+                    "resend-email", // Nombre exacto en Supabase
+                    options: FunctionInvokeOptions(body: data)
+                )
+            
+            if let emailId = response.id {
+                print("✅ Ticket enviado con éxito. ID de Resend: \(emailId)")
+            }
+            
+        } catch {
+            // Lanzamos el error para que el ViewModel pueda capturarlo
+            // y mostrar una alerta si es necesario.
+            print("❌ Error al enviar el Ticket Dorado: \(error)")
+            throw error
+        }
+    }
 }
