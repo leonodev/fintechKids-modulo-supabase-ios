@@ -51,20 +51,10 @@ public final class FHKSupabaseRewards: FHKSupabaseErrorProtocol, FHKSupabaseRewa
     }
     
     public func fetchRewardCollected(parentEmail: String) async throws -> [RewardCollectedEntity] {
-        let query = """
-            *,
-            member:fhk_family_members (
-                email_parent,
-                identification_uuid,
-                member_name,
-                avatar_name,
-                name_family
-            )
-            """
         do {
             let response: [RewardCollectedDto] = try await supabaseClient
                 .from(DB.TABLE_REWARDS_COLLECTED.NAME)
-                .select(query)
+                .select(DB.TABLE_REWARDS_COLLECTED.JOIN_FAMILY_MEMBER)
                 .eq(DB.TABLE_REWARDS_COLLECTED.COLUMN.parentEmail, value: parentEmail)
                 .order(DB.TABLE_REWARDS_COLLECTED.COLUMN.createdAt, ascending: false)
                 .execute()

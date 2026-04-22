@@ -76,5 +76,16 @@ public struct DB {
             public static let claimedValue = "claimed_value"
             public static let state = "state"
         }
+
+        public static let JOIN_FAMILY_MEMBER = """
+            *,
+            member:fhk_family_members (
+                email_parent,
+                identification_uuid,
+                member_name,
+                avatar_name,
+                name_family
+            )
+            """
     }
 }
