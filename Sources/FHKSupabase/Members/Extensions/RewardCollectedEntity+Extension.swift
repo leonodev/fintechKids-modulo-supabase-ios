@@ -15,6 +15,7 @@ extension RewardCollectedEntity: MappeableToSupabase {
                                   name_reward: self.nameReward,
                                   member: try self.member.toDto(),
                                   claimed_value: self.claimedValue,
-                                  state: self.state)
+                                  state: self.state,
+                                  name_task: self.nameTask)
     }
 }

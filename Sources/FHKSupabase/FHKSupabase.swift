@@ -75,6 +75,7 @@ public struct DB {
             public static let nameReward = "name_reward"
             public static let claimedValue = "claimed_value"
             public static let state = "state"
+            public static let nameTask = "name_task"
         }
 
         public static let JOIN_FAMILY_MEMBER = """

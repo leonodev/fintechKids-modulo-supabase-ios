@@ -16,6 +16,7 @@ public struct RewardCollectedDto: BusinessModelProtocol {
     public let member: MemberDto
     public let claimed_value: String
     public let state: String
+    public let name_task: String
 }
 
 extension RewardCollectedDto: MappeableToDomain {
@@ -26,6 +27,7 @@ extension RewardCollectedDto: MappeableToDomain {
                                      parentEmail: self.parent_email,
                                      nameReward: self.name_reward,
                                      claimedValue: self.claimed_value,
-                                     state: self.state)
+                                     state: self.state,
+                                     nameTask: self.name_task)
     }
 }

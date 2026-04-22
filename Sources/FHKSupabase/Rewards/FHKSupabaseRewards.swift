@@ -51,18 +51,14 @@ public final class FHKSupabaseRewards: FHKSupabaseErrorProtocol, FHKSupabaseRewa
     }
     
     public func fetchRewardCollected(parentEmail: String) async throws -> [RewardCollectedEntity] {
-        do {
-            let response: [RewardCollectedDto] = try await supabaseClient
-                .from(DB.TABLE_REWARDS_COLLECTED.NAME)
-                .select(DB.TABLE_REWARDS_COLLECTED.JOIN_FAMILY_MEMBER)
-                .eq(DB.TABLE_REWARDS_COLLECTED.COLUMN.parentEmail, value: parentEmail)
-                .order(DB.TABLE_REWARDS_COLLECTED.COLUMN.createdAt, ascending: false)
-                .execute()
-                .value
+        let response: [RewardCollectedDto] = try await supabaseClient
+            .from(DB.TABLE_REWARDS_COLLECTED.NAME)
+            .select(DB.TABLE_REWARDS_COLLECTED.JOIN_FAMILY_MEMBER)
+            .eq(DB.TABLE_REWARDS_COLLECTED.COLUMN.parentEmail, value: parentEmail)
+            .order(DB.TABLE_REWARDS_COLLECTED.COLUMN.createdAt, ascending: false)
+            .execute()
+            .value
 
-            return try response.toDomain()
-        } catch {
-            throw FHKSupabaseError.unknown(error.localizedDescription)
-        }
+        return try response.toDomain()
     }
 }
