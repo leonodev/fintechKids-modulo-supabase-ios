@@ -23,7 +23,7 @@ public final class FHKSupabaseRewards: FHKSupabaseErrorProtocol, FHKSupabaseRewa
             let rewardDto = try reward.toDto()
 
             let response = try await supabaseClient
-                .from(DB.TABLE_REWARDS.NAME)
+                .from(DB.TABLE_REWARDS_LIST.NAME)
                 .insert(rewardDto)
                 .execute()
             
@@ -41,12 +41,38 @@ public final class FHKSupabaseRewards: FHKSupabaseErrorProtocol, FHKSupabaseRewa
     
     public func fetchRewards(emailParent: String) async throws -> [RewardEntity] {
         let rewardList: [RewardDto] = try await supabaseClient
-            .from(DB.TABLE_REWARDS.NAME)
+            .from(DB.TABLE_REWARDS_LIST.NAME)
             .select()
-            .eq(DB.TABLE_REWARDS.COLUMN.emailParent, value: emailParent)
+            .eq(DB.TABLE_REWARDS_LIST.COLUMN.emailParent, value: emailParent)
             .execute()
             .value
         
         return try rewardList.toDomain()
+    }
+    
+    public func fetchRewardCollected(parentEmail: String) async throws -> [RewardCollectedEntity] {
+        let query = """
+            *,
+            member:fhk_family_members (
+                email_parent,
+                identification_uuid,
+                member_name,
+                avatar_name,
+                name_family
+            )
+            """
+        do {
+            let response: [RewardCollectedDto] = try await supabaseClient
+                .from(DB.TABLE_REWARDS_COLLECTED.NAME)
+                .select(query)
+                .eq(DB.TABLE_REWARDS_COLLECTED.COLUMN.parentEmail, value: parentEmail)
+                .order(DB.TABLE_REWARDS_COLLECTED.COLUMN.createdAt, ascending: false)
+                .execute()
+                .value
+
+            return try response.toDomain()
+        } catch {
+            throw FHKSupabaseError.unknown(error.localizedDescription)
+        }
     }
 }

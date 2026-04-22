@@ -53,7 +53,7 @@ public struct DB {
         }
     }
     
-    public struct TABLE_REWARDS {
+    public struct TABLE_REWARDS_LIST {
         public static let NAME: String = "fhk_rewards_list"
         
         public struct COLUMN {
@@ -62,6 +62,19 @@ public struct DB {
             public static let timeRequiered = "time_requiered"
             public static let coinsRequired = "coins_required"
             public static let emailParent = "email_parent"
+        }
+    }
+    
+    public struct TABLE_REWARDS_COLLECTED{
+        public static let NAME: String = "fhk_rewards_collected"
+        
+        public struct COLUMN {
+            public static let createdAt = "created_at"
+            public static let memberId = "member_id"
+            public static let parentEmail = "parent_email"
+            public static let nameReward = "name_reward"
+            public static let claimedValue = "claimed_value"
+            public static let state = "state"
         }
     }
 }
