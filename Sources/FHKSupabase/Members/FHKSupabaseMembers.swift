@@ -40,7 +40,6 @@ public final class FHKSupabaseMembers: FHKSupabaseErrorProtocol, FHKSupabaseMemb
     }
     
     public func fetchFamilyMembers(parentEmail: String) async throws -> [MemberEntity] {
-        print(supabaseClient)
         let members: [MemberDto] = try await supabaseClient
             .from(DB.TABLE_FAMILY_MEMBER.NAME)
             .select()
