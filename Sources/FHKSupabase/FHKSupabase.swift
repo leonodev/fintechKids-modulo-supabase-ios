@@ -29,6 +29,7 @@ public struct DB {
         public static let NAME: String = "fhk_goals_list"
         
         public struct COLUMN {
+            public static let id = "id"
             public static let dateExpiration = "date_expiration"
             public static let name = "name"
             public static let emailParent = "email_parent"

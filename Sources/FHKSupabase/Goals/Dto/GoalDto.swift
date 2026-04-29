@@ -9,6 +9,7 @@ import Foundation
 import FHKDomain
 
 public struct GoalDto: BusinessModelProtocol {
+    public let id: Int?
     public let date_expiration: String
     public let name: String
     public let email_parent: String
@@ -22,6 +23,7 @@ extension GoalDto: MappeableToDomain {
         let domainStatus = OperationStatus(rawValue: self.status) ?? .inCurse
         
         return GoalEntity(
+            id: self.id,
             expirationDate: self.date_expiration,
             name: self.name,
             emailParent: self.email_parent,
