@@ -49,4 +49,34 @@ public final class FHKSupabaseGoals: FHKSupabaseErrorProtocol, FHKSupabaseGoalPr
         
         return try goalList.toDomain()
     }
+    
+    public func createGoalMember(goal: GoalMemberEntity) async throws {
+        do {
+            let goalMemberDto = try goal.toDto()
+            
+            try await supabaseClient.functions.invoke(
+                DB.TABLE_GOALS_MEMBER.FUNCTION_EDGE.upsertGoalValue,
+                options: FunctionInvokeOptions(
+                    body: goalMemberDto
+                )
+            )
+        } catch let pgError as PostgrestError {
+            let code = pgError.code ?? ""
+            let errorToThrow = mapPostgresError(code, message: pgError.message)
+            throw errorToThrow
+        } catch {
+            throw FHKSupabaseError.unknown(error.localizedDescription)
+        }
+    }
+    
+    public func fetchGoalMember(member: MemberEntity) async throws -> [GoalMemberEntity] {
+        let goalMemberList: [GoalMemberDto] = try await supabaseClient
+            .from(DB.TABLE_GOALS_MEMBER.NAME)
+            .select()
+            .eq(DB.TABLE_GOALS_MEMBER.COLUMN.memberId, value: member.id)
+            .execute()
+            .value
+        
+        return try goalMemberList.toDomain()
+    }
 }

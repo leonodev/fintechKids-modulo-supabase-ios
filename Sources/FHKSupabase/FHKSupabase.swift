@@ -89,4 +89,21 @@ public struct DB {
             )
             """
     }
+    
+    public struct TABLE_GOALS_MEMBER {
+        public static let NAME: String = "fhk_goals_members"
+        
+        public struct COLUMN {
+            public static let createdAt = "created_at"
+            public static let goalId = "goal_id"
+            public static let memberId = "member_id"
+            public static let rewardsSystemValue = "rewards_system_value"
+            public static let accumulatedValue = "accumulated_value"
+            public static let rewardsSystemType = "rewards_system_type"
+        }
+        
+        public struct FUNCTION_EDGE {
+            public static let upsertGoalValue = "upsert-goal-value"
+        }
+    }
 }
