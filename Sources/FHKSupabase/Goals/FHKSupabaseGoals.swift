@@ -55,7 +55,7 @@ public final class FHKSupabaseGoals: FHKSupabaseErrorProtocol, FHKSupabaseGoalPr
             let goalMemberDto = try goal.toDto()
             
             try await supabaseClient.functions.invoke(
-                DB.TABLE_GOALS_MEMBER.FUNCTION_EDGE.upsertGoalValue,
+                DB.TABLE_GOALS_MEMBER.FUNCTION_EDGE.upsertGoalMember,
                 options: FunctionInvokeOptions(
                     body: goalMemberDto
                 )

@@ -104,7 +104,7 @@ public struct DB {
         }
         
         public struct FUNCTION_EDGE {
-            public static let upsertGoalValue = "upsert-goal-value"
+            public static let upsertGoalMember = "upsert-goal-member"
         }
     }
 }
