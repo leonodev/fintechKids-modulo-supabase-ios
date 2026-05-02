@@ -14,6 +14,7 @@ extension GoalMemberEntity: MappeableToSupabase {
                              accumulated_value: self.taskWinnedValue, // It takes the value of the task and adds it to what is in the backend.
                              rewards_system_type: self.rewardsSystemType,
                              rewards_system_value: self.rewardsSystemValue,
+                             parent_email: self.parentEmail
         )
     }
 }

@@ -101,6 +101,7 @@ public struct DB {
             public static let rewardsSystemValue = "rewards_system_value"
             public static let accumulatedValue = "accumulated_value"
             public static let rewardsSystemType = "rewards_system_type"
+            public static let parentEmail = "parent_email"
         }
         
         public struct FUNCTION_EDGE {

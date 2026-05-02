@@ -14,6 +14,7 @@ public struct GoalMemberDto: BusinessModelProtocol {
     let accumulated_value: Int
     let rewards_system_type: String
     let rewards_system_value: Int
+    let parent_email: String
 }
 
 extension GoalMemberDto: MappeableToDomain {
@@ -24,6 +25,7 @@ extension GoalMemberDto: MappeableToDomain {
                                 accumulatedValue: self.accumulated_value,
                                 rewardsSystemType: self.rewards_system_type,
                                 rewardsSystemValue: self.rewards_system_value,
+                                parentEmail: self.parent_email
         )
     }
 }
