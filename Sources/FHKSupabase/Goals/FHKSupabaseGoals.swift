@@ -69,11 +69,11 @@ public final class FHKSupabaseGoals: FHKSupabaseErrorProtocol, FHKSupabaseGoalPr
         }
     }
     
-    public func fetchGoalMember(member: MemberEntity) async throws -> [GoalMemberEntity] {
+    public func fetchGoalMember(memberId: UUID) async throws -> [GoalMemberEntity] {
         let goalMemberList: [GoalMemberDto] = try await supabaseClient
             .from(DB.TABLE_GOALS_MEMBER.NAME)
             .select()
-            .eq(DB.TABLE_GOALS_MEMBER.COLUMN.memberId, value: member.id)
+            .eq(DB.TABLE_GOALS_MEMBER.COLUMN.memberId, value: memberId)
             .execute()
             .value
         
