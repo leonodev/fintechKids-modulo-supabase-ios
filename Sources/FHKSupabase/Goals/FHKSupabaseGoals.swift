@@ -79,4 +79,15 @@ public final class FHKSupabaseGoals: FHKSupabaseErrorProtocol, FHKSupabaseGoalPr
         
         return try goalMemberList.toDomain()
     }
+    
+    public func fetchGoalMemberFamily(emailParent: String) async throws -> [GoalMemberEntity] {
+        let goalMemberFamilyList: [GoalMemberDto] = try await supabaseClient
+            .from(DB.TABLE_GOALS_MEMBER.NAME)
+            .select()
+            .eq(DB.TABLE_GOALS_MEMBER.COLUMN.parentEmail, value: emailParent)
+            .execute()
+            .value
+        
+        return try goalMemberFamilyList.toDomain()
+    }
 }
