@@ -11,6 +11,7 @@ import FHKDomain
 public struct GoalMemberDto: BusinessModelProtocol {
     let goal_id: Int
     let member_id: UUID
+    let name_goal: String
     let accumulated_value: Int
     let rewards_system_type: String
     let rewards_system_value: Int
@@ -22,6 +23,7 @@ extension GoalMemberDto: MappeableToDomain {
         
         return GoalMemberEntity(goalId: self.goal_id,
                                 memberId: self.member_id,
+                                nameGoal: self.name_goal,
                                 accumulatedValue: self.accumulated_value,
                                 rewardsSystemType: self.rewards_system_type,
                                 rewardsSystemValue: self.rewards_system_value,

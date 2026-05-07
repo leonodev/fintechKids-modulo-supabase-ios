@@ -98,6 +98,7 @@ public struct DB {
             public static let createdAt = "created_at"
             public static let goalId = "goal_id"
             public static let memberId = "member_id"
+            public static let nameGoal = "name_goal"
             public static let rewardsSystemValue = "rewards_system_value"
             public static let accumulatedValue = "accumulated_value"
             public static let rewardsSystemType = "rewards_system_type"
