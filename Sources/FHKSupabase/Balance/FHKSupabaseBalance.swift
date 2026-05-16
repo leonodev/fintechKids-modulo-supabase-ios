@@ -18,8 +18,7 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
         self.supabaseClient = supabaseClient
     }
     
-    public func fetchBalance(memberId: UUID
-    ) async throws -> FHKDomain.BalanceEntity {
+    public func fetchBalance(memberId: UUID) async throws -> BalanceEntity {
         let balances: [BalanceDto] = try await supabaseClient
             .from(DB.TABLE_BALANCE.NAME)
             .select()
@@ -28,7 +27,11 @@ public final class FHKSupabaseBalance: FHKSupabaseErrorProtocol, FHKSupabaseBala
             .value
         
         guard let balance = balances.first else {
-            throw FHKSupabaseError.unknown("Error unknown")
+            return FHKDomain.BalanceEntity(
+                memberId: memberId,
+                coinsObtained: 0,
+                timeObtained: "0"
+            )
         }
         
         return balance.toDomain()
